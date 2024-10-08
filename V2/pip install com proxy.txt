@@ -1,0 +1,1 @@
+ pip install --proxy http://91032:Pedro@2912@10.3.0.1:3108#
