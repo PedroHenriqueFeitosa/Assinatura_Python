@@ -1,0 +1,49 @@
+Se seu código Python utiliza fontes específicas (como fontes TrueType) que não estão instaladas no sistema do usuário, você precisará incluí-las no seu executável. Aqui está um resumo sobre como lidar com fontes no PyInstaller:
+
+### Quando Incluir Fontes
+
+- **Usa Fontes Personalizadas**: Se você está usando uma fonte específica no seu código (por exemplo, `Arialbd.TTF`), e essa fonte não está garantidamente instalada em todos os sistemas onde seu executável será executado.
+- **Garantir Consistência Visual**: Incluir fontes ajuda a garantir que a aparência do seu aplicativo seja a mesma em diferentes máquinas.
+
+### Como Incluir Fontes com PyInstaller
+
+1. **Identifique as Fontes**: Localize o arquivo da fonte no seu sistema. Por exemplo, se você está usando `Arialbd.TTF`, anote o caminho completo.
+
+2. **Use a Opção `--add-data`**: Ao criar o executável com o PyInstaller, você pode usar a opção `--add-data` para incluir a fonte. O comando ficaria assim:
+
+   ```bash
+   pyinstaller --onefile --windowed --add-data "C:\Windows\Fonts\Arialbd.TTF;." seu_script.py
+   ```
+
+   Neste comando:
+   - `C:\Windows\Fonts\Arialbd.TTF` é o caminho para o arquivo da fonte.
+   - `.` indica que a fonte será colocada no mesmo diretório que o executável.
+
+3. **Acesse a Fonte no Código**: Quando seu aplicativo for executado, você precisará acessar a fonte a partir do diretório onde o executável está. Use `os.path` para construir o caminho corretamente. Por exemplo:
+
+   ```python
+   import os
+   import tkinter as tk
+   from PIL import ImageFont
+
+   # Obter o caminho da fonte
+   fonte_path = os.path.join(os.path.dirname(__file__), "Arialbd.TTF")
+   font = ImageFont.truetype(fonte_path, 16)
+   ```
+
+### Exemplo Completo
+
+Suponha que seu código original usa uma fonte chamada `Arialbd.TTF`. O comando final para gerar o executável poderia ser:
+
+```bash
+pyinstaller --onefile --windowed --add-data "C:\Windows\Fonts\Arialbd.TTF;." seu_script.py
+```
+
+E você ajustaria o código para acessar a fonte corretamente.
+
+### Considerações Finais
+
+- **Verifique a Licença**: Certifique-se de que você tem os direitos necessários para distribuir a fonte, especialmente se for uma fonte comercial.
+- **Testar em Diferentes Máquinas**: Após criar o executável, teste em outras máquinas para garantir que a fonte está sendo carregada corretamente.
+
+Se precisar de mais ajuda ou tiver outras perguntas, estou aqui para ajudar!
